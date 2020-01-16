@@ -11,6 +11,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import withStyles from '@material-ui/core/styles/withStyles';
 import EditUser from './EditUser';
+import { connect } from "react-redux";
+import { compose } from "redux";
+import {addUser, cancelEditMode, deleteUser, editUser} from "../redux/actions";
 
 const colors = [
     '#ef5350', '#ab47bc', '#7e57c2', '#5c6bc0', '#42a5f5',
@@ -72,7 +75,7 @@ class User extends Component {
         this.state = { editMode };
     }
 
-    getAbbreviation = (itemName, itemSurname) => `${itemName.charAt(0)}${itemSurname.charAt(0)}`;
+    getAbbreviation = (user) => `${user.name.charAt(0)}${user.surname.charAt(0)}`;
 
     onEditIconClick = () => {
         this.setState({ editMode: true });
@@ -82,21 +85,22 @@ class User extends Component {
         this.setState({
             editMode: false,
         });
-        this.props.editUser(user);
+        user.addMode ? this.props.addUser(user) : this.props.editUser({
+            ...user,
+        });
     };
 
     onCancel = (user) => {
         this.setState({ editMode: false });
+        this.props.cancelEditMode();
 
-        if (!this.props.user.name) {
-            this.props.deleteUser(user.id);
-        }
     };
 
     render () {
         const { user, deleteUser, classes } = this.props;
         const { id, name, surname, email, birthDate } = user;
         const { editMode } = this.state;
+        const ab = this.getAbbreviation(user);
 
         return (
             <Box className = { classes.mainBox }>
@@ -105,9 +109,9 @@ class User extends Component {
                         className = { classes.avatar }
                         src = 'public/images/avatar-person.jpeg'
                         style = { { backgroundColor: colors[Math.floor(Math.random() * Math.floor(colors.length))] } }>
-                        {this.getAbbreviation(name, surname) === '' ?
+                        {ab === '' ?
                             undefined
-                            : this.getAbbreviation(name, surname)
+                            : ab
                         }
                     </Avatar>
                     <CardContent className = { classes.info }>
@@ -145,4 +149,7 @@ class User extends Component {
     }
 }
 
-export default withStyles(styles)(User);
+export default compose(
+    withStyles(styles),
+    connect(null, { editUser, deleteUser, addUser, cancelEditMode })
+)(User);

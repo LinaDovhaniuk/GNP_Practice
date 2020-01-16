@@ -4,6 +4,8 @@ import User from './User.js';
 import { Component } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import EditUser from './EditUser';
+import { connect } from 'react-redux';
+import { compose } from "redux";
 
 const colors = ['#ef5350', '#ab47bc', '#7e57c2', '#5c6bc0', '#42a5f5', '#26a69a', '#4caf50', '#fbc02d', '#ef6c00', '#e65100'];
 
@@ -18,13 +20,9 @@ const styles = {
 };
 
 class UsersList extends Component {
-    state = {
-        users,
-    };
 
     render () {
-        const { users = [], ...rest } = this.props;
-        const { classes } = this.props;
+        const { users = [], classes } = this.props;
 
         return (
             <div className = { classes.mainBox }>
@@ -33,7 +31,6 @@ class UsersList extends Component {
                         key = { user.id }
                         user = { user }
                         editMode = {user.editMode}
-                        { ...rest }
                     />)
                 )}
             </div>
@@ -41,5 +38,12 @@ class UsersList extends Component {
     }
 
 }
+const mapStateToProps = ({ users }) => ({
+    users: users.newUser ? [...users.data, users.newUser] : users.data,
+});
 
-export default withStyles(styles)(UsersList);
+export default compose(
+    withStyles(styles),
+    connect(mapStateToProps)
+)(UsersList);
+

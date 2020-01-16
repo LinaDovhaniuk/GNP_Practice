@@ -4,6 +4,9 @@ import UsersList from '../components/UsersList';
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { addNewUser } from '../redux/actions';
 
 const styles = {
     add: {
@@ -14,55 +17,16 @@ const styles = {
 };
 
 class MainContainer extends Component {
-    state = { users };
-
-    deleteUser = (id) => {
-        const { users } = this.state;
-        this.setState({ users: users.filter((user) => user.id !== id) });
-    };
-
-    addUser = () => {
-        const { users } = this.state;
-        const newUser = {
-            id:        Math.random()*1000,
-            name:      '',
-            surname:   '',
-            email:     '',
-            birthDate: '',
-            editMode:  true,
-        };
-        this.setState({ users: [...users, newUser]});
-    };
-
-    editUser = (user) => {
-        const { users } = this.state;
-
-        const indexOfChangedItem = users.findIndex((u) => u.id === user.id);
-
-        if (indexOfChangedItem >= 0) {
-            const updateUsers = [
-                ...users.slice(0, indexOfChangedItem),
-                user,
-                ...users.slice(indexOfChangedItem + 1)
-            ];
-            this.setState({ users: updateUsers });
-        }
-    };
 
     render () {
-        const { users } = this.state;
-        const { classes } = this.props;
+        const { classes, addNewUser } = this.props;
 
         return (
             <div>
-                <UsersList
-                    deleteUser = { this.deleteUser }
-                    editUser = { this.editUser }
-                    users = { users }
-                />
+                <UsersList />
                 <AddCircleIcon
                     className = { classes.add }
-                    onClick = { this.addUser }
+                    onClick = { addNewUser }
                     color = 'secondary'
                 />
             </div>
@@ -71,4 +35,7 @@ class MainContainer extends Component {
     }
 }
 
-export default withStyles(styles)(MainContainer);
+export default compose(
+    withStyles(styles),
+    connect(null, { addNewUser })
+)(MainContainer);
