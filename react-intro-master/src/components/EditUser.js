@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import withStyles from '@material-ui/core/styles/withStyles';
+import {withRouter} from "react-router-dom";
 
 const styles = {
     container: {
@@ -133,4 +134,4 @@ class EditUser extends Component {
     }
 }
 
-export default withStyles(styles)(EditUser);
+export default withRouter(withStyles(styles)(EditUser));

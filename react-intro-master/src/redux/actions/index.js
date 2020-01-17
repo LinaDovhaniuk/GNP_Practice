@@ -1,4 +1,4 @@
-import { EDIT_USER, DELETE_USER, ADD_USER, ADD_NEW_USER, CANCEL_EDIT_USER } from './types';
+import { EDIT_USER, DELETE_USER, ADD_USER, ADD_NEW_USER, CANCEL_EDIT_USER, BACK_TO_USERSLIST } from './types';
 
 export const editUser = (user) => ({
     type: EDIT_USER,
@@ -7,7 +7,11 @@ export const editUser = (user) => ({
 
 export const addUser = (user) => ({
     type: ADD_USER,
-    payload: user,
+    payload: {
+        ...user,
+        editMode: false,
+        addMode: false,
+    },
 });
 
 export const deleteUser = (id) => ({
@@ -22,3 +26,8 @@ export const addNewUser = () => ({
 export const cancelEditMode = () => ({
     type: CANCEL_EDIT_USER,
 });
+
+export const backToUsersList = () => ({
+    type: BACK_TO_USERSLIST,
+});
+

@@ -11,9 +11,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import withStyles from '@material-ui/core/styles/withStyles';
 import EditUser from './EditUser';
-import { connect } from "react-redux";
-import { compose } from "redux";
-import {addUser, cancelEditMode, deleteUser, editUser} from "../redux/actions";
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { addUser, cancelEditMode, deleteUser, editUser } from '../redux/actions';
+import { NavLink, withRouter } from 'react-router-dom';
 
 const colors = [
     '#ef5350', '#ab47bc', '#7e57c2', '#5c6bc0', '#42a5f5',
@@ -56,8 +57,9 @@ const styles = {
         },
     },
     content: {
-        lineHeight: '3.5vw',
-        fontSize:   '2vw',
+        lineHeight:     '3.5vw',
+        fontSize:       '2vw',
+        textDecoration: 'none',
     },
     dateContent: {
         lineHeight: '3.5vw',
@@ -97,7 +99,7 @@ class User extends Component {
     };
 
     render () {
-        const { user, deleteUser, classes } = this.props;
+        const { user, classes, userPage } = this.props;
         const { id, name, surname, email, birthDate } = user;
         const { editMode } = this.state;
         const ab = this.getAbbreviation(user);
@@ -123,9 +125,20 @@ class User extends Component {
                             />
                         ) : (
                             <Fragment>
-                                <Typography className = { classes.content } variant = 'h4' >{`${name} ${surname}`}</Typography>
-                                <Typography className = { classes.content } variant = 'h5' >{email}</Typography>
-                                <Typography className = { classes.dateContent } variant = 'h6' >{birthDate}</Typography>
+                                { userPage ? (
+                                    <Fragment>
+                                        <Typography className = { classes.content } variant = 'h4' >{`${name} ${surname}`}</Typography>
+                                        <Typography className = { classes.content } variant = 'h5' >{email}</Typography>
+                                        <Typography className = { classes.dateContent } variant = 'h6' >{birthDate}</Typography>
+                                    </Fragment>
+                                ) : (
+                                    <Fragment>
+                                        <Typography className = { classes.content } variant = 'h4' >{`${name} ${surname}`}</Typography>
+                                        <NavLink className = { classes.content } to = { `/user/${id}` }>More...</NavLink>
+                                    </Fragment>
+
+                                )}
+
                             </Fragment>
                         )}
                     </CardContent>
@@ -139,7 +152,7 @@ class User extends Component {
                             className = { `${classes.delete} ${classes.icons}` }
                             color = 'secondary'
                             onClick = { () => {
-                                deleteUser(id);
+                                this.props.deleteUser(id);
                             } }
                         />
                     </CardActions>
@@ -149,7 +162,8 @@ class User extends Component {
     }
 }
 
-export default compose(
-    withStyles(styles),
-    connect(null, { editUser, deleteUser, addUser, cancelEditMode })
-)(User);
+export default withRouter(
+    compose(
+        withStyles(styles),
+        connect(null, { editUser, deleteUser, addUser, cancelEditMode })
+    )(User));

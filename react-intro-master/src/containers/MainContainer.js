@@ -7,6 +7,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { addNewUser } from '../redux/actions';
+import { Switch, withRouter } from 'react-router-dom';
 
 const styles = {
     add: {
@@ -35,7 +36,8 @@ class MainContainer extends Component {
     }
 }
 
-export default compose(
+export default withRouter(
+    compose(
     withStyles(styles),
     connect(null, { addNewUser })
-)(MainContainer);
+)(MainContainer));

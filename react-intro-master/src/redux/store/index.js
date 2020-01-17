@@ -1,6 +1,17 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { createLogger } from 'redux-logger';
 
+import { createBrowserHistory } from 'history';
+import { routerMiddleware as createRouterMiddleware } from 'react-router-redux';
+import { sync } from './middleware';
+import thunk from 'redux-thunk';
+
+// Instruments
+
+const dev = process.env.NODE_ENV === 'development'; // eslint-disable-line
+const devtools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+const composeEnhancers = dev && devtools ? devtools : compose;
+
 // Instruments
 import reducer from '../reducers';
 
@@ -16,7 +27,24 @@ const logger = createLogger({
         error:     () => '#ff0005',
     },
 });
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const middleware = [logger];
 
-export default createStore(reducer, composeEnhancers(applyMiddleware(...middleware)));
+// Create a history of your choosing (we're using a browser history in this case)
+const history = createBrowserHistory();
+
+// Build the middleware for intercepting and dispatching navigation actions
+const routerMiddleware = createRouterMiddleware(history);
+
+const middleware = [routerMiddleware, thunk, sync];
+
+if (dev) {
+    middleware.push(logger);
+}
+
+const persistedState = JSON.parse(localStorage.getItem('@@persistedState'));
+
+export { history };
+export default (() =>
+    persistedState
+        ? createStore(reducer, persistedState, composeEnhancers(applyMiddleware(...middleware)))
+        : createStore(reducer, composeEnhancers(applyMiddleware(...middleware))))();
+

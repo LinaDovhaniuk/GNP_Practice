@@ -1,4 +1,4 @@
-import { EDIT_USER, DELETE_USER, ADD_USER, ADD_NEW_USER, CANCEL_EDIT_USER } from '../../actions/types';
+import { EDIT_USER, DELETE_USER, ADD_USER, ADD_NEW_USER, CANCEL_EDIT_USER, BACK_TO_USERSLIST } from '../../actions/types';
 import users from '../../../data/users';
 
 const initialState = {
@@ -41,7 +41,14 @@ export default (state = initialState, { type, payload }) => {
             };
         case CANCEL_EDIT_USER:
             return {
-                data:    [...state.data],
+                data: [...state.data],
+                newUser: null,
+            };
+
+        case BACK_TO_USERSLIST:
+            return {
+                data: [...state.data],
+                newUser: null,
             };
 
 

@@ -1,13 +1,10 @@
 import React from 'react';
-import users from '../data/users';
 import User from './User.js';
 import { Component } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
-import EditUser from './EditUser';
 import { connect } from 'react-redux';
-import { compose } from "redux";
-
-const colors = ['#ef5350', '#ab47bc', '#7e57c2', '#5c6bc0', '#42a5f5', '#26a69a', '#4caf50', '#fbc02d', '#ef6c00', '#e65100'];
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 
 const styles = {
     mainBox: {
@@ -42,8 +39,7 @@ const mapStateToProps = ({ users }) => ({
     users: users.newUser ? [...users.data, users.newUser] : users.data,
 });
 
-export default compose(
+export default withRouter(compose(
     withStyles(styles),
     connect(mapStateToProps)
-)(UsersList);
-
+)(UsersList));
