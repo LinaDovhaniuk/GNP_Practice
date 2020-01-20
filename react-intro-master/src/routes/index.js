@@ -10,7 +10,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { connect } from 'react-redux';
 import { addNewUser } from '../redux/actions';
 import EditUser from '../components/EditUser';
-import UsersPage from '../components/UsersPage';
+import UsersPage from '../containers/UsersPage';
 
 class Routes extends Component {
     render () {

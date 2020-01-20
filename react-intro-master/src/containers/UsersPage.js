@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { addUser, cancelEditMode, deleteUser, editUser, backToUsersList } from '../redux/actions';
 import { NavLink, withRouter } from 'react-router-dom';
-import User from './User';
+import User from '../components/User';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { createSelector } from 'reselect';
 
