@@ -1,56 +1,28 @@
-import { EDIT_USER, DELETE_USER, ADD_USER, ADD_NEW_USER, CANCEL_EDIT_USER, BACK_TO_USERSLIST } from '../../actions/types';
-import users from '../../../data/users';
+import { AUTH_USER_SUCCESS, CANCEL_EDIT_USER, EDIT_USER_SUCCESS, REGISTER_USER_SUCCESS } from '../../actions/types';
 
 const initialState = {
-    data:    users,
-    newUser: null,
+    user: {},
+    universities: {},
 };
 
 export default (state = initialState, { type, payload }) => {
     switch (type) {
-        case EDIT_USER:
+        case EDIT_USER_SUCCESS:
             return {
-                ...state,
-                data: state.data.map((user) => user.id === payload.id ? payload : user),
-            };
-
-        case DELETE_USER:
-            return {
-                ...state,
-                data: state.data.filter((user) => user.id !== payload),
-            };
-
-        case ADD_USER:
-            return {
-                data:    [...state.data, payload],
-                newUser: null,
-            };
-
-        case ADD_NEW_USER:
-            return {
-                ...state,
-                newUser: {
-                    id:        Math.random()*1000,
-                    name:      '',
-                    surname:   '',
-                    email:     '',
-                    birthDate: '',
-                    editMode:  true,
-                    addMode:   true,
-                },
+                user: {...payload},
             };
         case CANCEL_EDIT_USER:
             return {
-                data: [...state.data],
-                newUser: null,
+                ...state,
             };
-
-        case BACK_TO_USERSLIST:
+        case REGISTER_USER_SUCCESS:
             return {
-                data: [...state.data],
-                newUser: null,
+                user: { ...payload },
             };
-
+        case AUTH_USER_SUCCESS:
+            return {
+                user: { ...payload },
+            };
 
         default:
             return state;

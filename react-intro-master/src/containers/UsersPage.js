@@ -4,9 +4,9 @@ import Box from '@material-ui/core/Box';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { addUser, cancelEditMode, deleteUser, editUser, backToUsersList } from '../redux/actions';
+import { cancelEditMode, editUser } from '../redux/actions';
 import { NavLink, withRouter } from 'react-router-dom';
-import User from '../components/User';
+import User from './User.js';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { createSelector } from 'reselect';
 
@@ -81,28 +81,27 @@ class UsersPage extends Component {
     };
 
     render () {
-        const { users, match, classes } = this.props;
-        const selectUserbyId = createSelector(() => this.props.users, (u) => {
-            return users.find((u) => u.id.toString() === match.params.id.toString());
-        });
-        const user = selectUserbyId(users);
+        const { user, classes } = this.props;
 
-        return (<Box className = { classes.mainBox }>
-            <User
-                editMode = { false }
-                key = { user.id }
-                user = { user }
-                userPage
-            />
-            <Box className = { classes.btn }>
-                <NavLink className = { classes.arrow } to = '/users'><ArrowBackIcon onClick = { this.onBack } /></NavLink>
+        return (
+            <Box className = { classes.mainBox }>
+                <User
+                    editMode = { false }
+                    key = { user.id }
+                    user = { user }
+                    userPage
+                />
             </Box>
-        </Box>);
+        );
     }
 }
+
+const mapStateToProps = ({ usersData: { user }}) => ({
+    user,
+});
 
 export default withRouter(
     compose(
         withStyles(styles),
-        connect(null, { editUser, deleteUser, addUser, cancelEditMode, backToUsersList })
+        connect(mapStateToProps, { editUser, cancelEditMode })
     )(UsersPage));

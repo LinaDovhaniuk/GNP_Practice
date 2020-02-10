@@ -1,4 +1,5 @@
-import {combineReducers} from "redux";
-import users from './users';
+import { combineReducers } from 'redux';
+import usersData from './users';
+import universitiesData from './universities';
 
-export default combineReducers({ users, });
+export default combineReducers({ usersData, universitiesData });

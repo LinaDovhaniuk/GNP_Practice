@@ -3,5 +3,5 @@ export const sync = ({ getState }) => (next) => (action) => {
 
     const state = JSON.stringify(getState());
 
-    localStorage.setItem('@@persistedState', state);
+    localStorage.setItem('@@LinaDovhaniukPersistedStateForReactProject', state);
 };

@@ -40,7 +40,7 @@ if (dev) {
     middleware.push(logger);
 }
 
-const persistedState = JSON.parse(localStorage.getItem('@@persistedState'));
+const persistedState = JSON.parse(localStorage.getItem('@@LinaDovhaniukPersistedStateForReactProject'));
 
 export { history };
 export default (() =>

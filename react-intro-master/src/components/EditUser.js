@@ -3,11 +3,11 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import withStyles from '@material-ui/core/styles/withStyles';
-import {withRouter} from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 
 const styles = {
     container: {
-        minWidth: 160,
+        minWidth:       160,
         margin:         10,
         display:        'flex',
         justifyContent: 'space-around',
@@ -58,16 +58,9 @@ class EditUser extends Component {
 
     isEmailValid = (email) => (/^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/).test(email);
 
-    handleBirthDateChange = ({ target: { value }}) => {
-        this.setState({
-            birthDate: value,
-        });
-    };
-
     isDisabled = () => !(this.isNameValid(this.state.name) &&
         this.isSurnameValid(this.state.surname) &&
-        this.isEmailValid(this.state.email) &&
-        this.isBirthDateValid(this.state.birthDate)
+        this.isEmailValid(this.state.email)
     );
 
 
@@ -103,14 +96,6 @@ class EditUser extends Component {
                     error = { !this.isEmailValid(this.state.email) }
                     label = 'Email'
                     onChange = { this.handleEmailChange }
-                    variant = 'outlined'
-                />
-                <TextField
-                    className = { classes.item }
-                    defaultValue = { birthDate }
-                    error = { !this.isBirthDateValid(this.state.birthDate) }
-                    label = 'Date of birth'
-                    onChange = { this.handleBirthDateChange }
                     variant = 'outlined'
                 />
                 <Box className = { classes.actions }>

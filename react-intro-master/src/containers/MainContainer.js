@@ -1,6 +1,4 @@
-import users from '../data/users';
 import { Component } from 'react';
-import UsersList from '../components/UsersList';
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -20,14 +18,14 @@ const styles = {
 class MainContainer extends Component {
 
     render () {
-        const { classes, addNewUser } = this.props;
+        const { classes } = this.props;
 
         return (
             <div>
-                <UsersList />
+                {/*<UsersList />*/}
                 <AddCircleIcon
                     className = { classes.add }
-                    onClick = { addNewUser }
+                    // onClick = { addNewUser }
                     color = 'secondary'
                 />
             </div>
@@ -38,6 +36,6 @@ class MainContainer extends Component {
 
 export default withRouter(
     compose(
-    withStyles(styles),
-    connect(null, { addNewUser })
-)(MainContainer));
+        withStyles(styles),
+        connect(null)
+    )(MainContainer));
